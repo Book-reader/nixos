@@ -6,7 +6,7 @@
 		# I have nix 2.27.0pre19700101_dirty
 		# self.submodules = true;
 
-		# I use this incorrectly out of spite
+		# I use this the non-optimal way out of spite
 		nixpkgs.url = "https://github.com/NixOS/nixpkgs/tarball/nixos-24.11";
 		nixpkgs-unstable.url = "https://github.com/NixOS/nixpkgs/tarball/nixos-unstable";
 		# clipboard-sync.url = "path:clipboard-sync";
