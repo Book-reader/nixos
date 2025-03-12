@@ -1,0 +1,40 @@
+diff --git a/src/detection/wm/wm_linux.c b/src/detection/wm/wm_linux.c
+index 2c249484..f3006ae7 100644
+--- a/src/detection/wm/wm_linux.c
++++ b/src/detection/wm/wm_linux.c
+@@ -23,12 +23,32 @@ static bool extractHyprlandVersion(const char* line, FF_MAYBE_UNUSED uint32_t le
+     return false;
+ }
+ 
++static const char* getHyprlandLocationNix(FFstrbuf *result)
++{
++   FF_STRBUF_AUTO_DESTROY path = ffStrbufCreate();
++   if (ffFindExecutableInPath("Hyprland", &path)) return "Failed to find Hyprland executable path";
++
++   char *path_c = malloc(sizeof(char) * (path.length + 1));
++   memcpy(path_c, path.chars, path.length);
++
++   FF_STRBUF_AUTO_DESTROY file_data = ffStrbufCreate();
++   ffReadFileBuffer(path_c, &file_data);
++   free(path_c);
++
++   ffStrbufSubstrBeforeLastC(&file_data, '"');
++   ffStrbufSubstrBeforeLastC(&file_data, ' ');
++   ffStrbufSubstrBeforeLastC(&file_data, '"');
++   ffStrbufSubstrAfterLastC(&file_data, '"');
++
++   ffStrbufAppend(result, &file_data);
++   return NULL;
++}
++
+ static const char* getHyprland(FFstrbuf* result)
+ {
+     FF_STRBUF_AUTO_DESTROY path = ffStrbufCreate();
+-    const char* error = ffFindExecutableInPath("Hyprland", &path);
+-    if (error) return "Failed to find Hyprland executable path";
+-
++    const char* error = getHyprlandLocationNix(&path);
++    if (error) return error;
+     if (ffBinaryExtractStrings(path.chars, extractHyprlandVersion, result, (uint32_t) strlen("v0.0.0")) == NULL)
+         return NULL;
+ 
