@@ -211,6 +211,7 @@ in
 		# clipboard-sync
 		# (pkgs.callPackage ./pkgs/clipboard-sync.nix {})
 		(pkgs.callPackage ./pkgs/betterdiscord-installer.nix {})
+		# (import ./nix/default.nix).default
 	];
 
 	# Some programs need SUID wrappers, can be configured further or are

@@ -2,11 +2,15 @@
 	description = "A simple NixOS flake";
 
 	inputs = {
+		# Why no workie :(
+		# I have nix 2.27.0pre19700101_dirty
+		# self.submodules = true;
 		# NixOS official package source, using the nixos-24.11 branch here
 		nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
 		nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-
+		test.url= "git+file://./clipboard-sync/flake.nix";
 	};
+
 
 	outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs:
 	let
@@ -22,7 +26,6 @@
 					# Import the previous configuration.nix we used,
 					# so the old configuration file still takes effect
 					./configuration.nix
-					./clipboard-sync/flake.nix
 				];
 			};
 		};
