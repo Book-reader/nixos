@@ -1,0 +1,3 @@
+[submodule "clipboard-sync"]
+	path = clipboard-sync
+	url = https://github.com/dnut/clipboard-sync

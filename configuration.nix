@@ -209,7 +209,7 @@ in
 		man-pages-posix
 		pipx
 		# clipboard-sync
-		(pkgs.callPackage ./pkgs/clipboard-sync.nix {})
+		# (pkgs.callPackage ./pkgs/clipboard-sync.nix {})
 		(pkgs.callPackage ./pkgs/betterdiscord-installer.nix {})
 	];
 
