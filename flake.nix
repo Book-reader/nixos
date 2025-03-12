@@ -12,7 +12,7 @@
 	};
 
 
-	outputs = { self, nixpkgs, nixpkgs-unstable, clipboard-sync, ... }@inputs:
+	outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs:
 	let
 		unstable = import nixpkgs-unstable {};
 	in {
