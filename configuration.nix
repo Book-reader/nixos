@@ -98,7 +98,15 @@ in
 
 	# Enable the X11 windowing system.
 	# services.xserver.enable = true;
-	programs.hyprland.enable = true;
+	programs.hyprland = {
+		enable = true;
+		withUWSM = true;
+	};
+	xdg.portal = {
+		enable = true;
+		# xdgOpenUsePortal = true;
+		extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+	};
 	environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
 	# Enable the GNOME Desktop Environment.
@@ -210,6 +218,8 @@ in
 		pipx
 		(pkgs.callPackage ./pkgs/clipboard-sync.nix {})
 		(pkgs.callPackage ./pkgs/betterdiscord-installer.nix {})
+		zip
+		unzip
 		# (import ./nix/default.nix).default
 	];
 
@@ -241,6 +251,7 @@ in
 	services.mullvad-vpn.enable = true;
 	services.auto-cpufreq.enable = true;
 	services.flatpak.enable = true;
+	services.dbus.enable = true;
 	# services.clipboard-sync.enable = true;
 
 	# Enable CUPS to print documents.
