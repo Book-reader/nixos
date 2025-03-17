@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, nixpkgs, unstable, ... }:
+{ config, lib, nixpkgs, unstable, ... }:
 let
 	locale = "en_NZ.UTF-8";
 	fastfetchPatched = pkgs.fastfetch.overrideAttrs (final: prev: {
@@ -10,6 +10,7 @@ let
 		cmakeFlags = prev.cmakeFlags ++ [ (lib.cmakeBool "ENABLE_ELF" true) ];
 		buildInputs = prev.buildInputs ++ [ pkgs.elfutils ];
 	});
+	pkgs = import nixpkgs {};
 in
 {
 

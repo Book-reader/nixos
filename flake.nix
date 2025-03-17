@@ -21,7 +21,7 @@
 			NixOS-PC = nixpkgs.lib.nixosSystem {
 				# oh noooo, my reproducibility has been ruined by external variables!!!!! whatever shall I do????
 				system = builtins.currentSystem;
-				specialArgs = { inherit inputs unstable; };
+				specialArgs = { inherit inputs unstable nixpkgs; };
 				modules = [
 					# Import the previous configuration.nix we used,
 					# so the old configuration file still takes effect
