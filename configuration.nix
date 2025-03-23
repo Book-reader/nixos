@@ -135,7 +135,7 @@ in
 	};
 
 	systemd.user.services.polkit-gnome-authentication-agent-1 = {
-    		enable = true;
+		enable = true;
 		description = "polkit-gnome-authentication-agent-1";
 		wants = [ "graphical-session.target" ];
 		after = [ "graphical-session.target" ];
@@ -217,8 +217,12 @@ in
 		(pkgs.callPackage ./pkgs/betterdiscord-installer.nix {})
 		zip
 		unzip
+		vscode
+		bat
 		# (import ./nix/default.nix).default
 	];
+
+	security.polkit.enable = true;
 
 	# Some programs need SUID wrappers, can be configured further or are
 	# started in user sessions.
