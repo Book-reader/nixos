@@ -5,11 +5,6 @@
 { config, lib, pkgs, nixpkgs, unstable, ... }:
 let
 	locale = "en_NZ.UTF-8";
-	fastfetchPatched = pkgs.fastfetch.overrideAttrs (final: prev: {
-		patches = [ ./pkgs/fastfetch-hyprland.patch ];
-		cmakeFlags = prev.cmakeFlags ++ [ (lib.cmakeBool "ENABLE_ELF" true) ];
-		buildInputs = prev.buildInputs ++ [ pkgs.elfutils ];
-	});
 in
 {
 
@@ -47,11 +42,12 @@ in
 	};
 
 	documentation = {
-    		enable = true;
-    		man.enable = true;
-    		man.generateCaches = true;
-    		nixos.includeAllModules = true;
-    		dev.enable = true;
+			enable = true;
+			man.enable = true;
+			# Apparently not needed because I use fish
+			# man.generateCaches = true;
+			nixos.includeAllModules = true;
+			dev.enable = true;
 	};
 
 	# Use the systemd-boot EFI boot loader.
@@ -109,23 +105,11 @@ in
 	};
 	environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-	# Enable the GNOME Desktop Environment.
-	# services.xserver.displayManager.gdm.enable = true;
-	# services.xserver.desktopManager.gnome.enable = true;
-
 
 	# Configure keymap in X11
 	services.xserver.xkb.layout = "us";
 	# services.xserver.xkb.options = "eurosign:e,caps:escape";
 	#
-	# Define a user account. Don't forget to set a password with ‘passwd’.
-	# users.users.alice = {
-	#	 isNormalUser = true;
-	#	 extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-	#	 packages = with pkgs; [
-	#		 tree
-	#	 ];
-	# };
 	users.users.user = {
 		isNormalUser = true;
 		extraGroups = [ "networkmanager" "wheel" "dialout" "mlocate" ];
@@ -167,7 +151,7 @@ in
 		htop
 		btop
 		wget
-		fastfetchPatched
+		fastfetch
 		fish
 		nix-your-shell
 		# starship
@@ -253,6 +237,7 @@ in
 	services.auto-cpufreq.enable = true;
 	services.flatpak.enable = true;
 	services.dbus.enable = true;
+	services.gvfs.enable = true;
 	# services.clipboard-sync.enable = true;
 
 	# Enable CUPS to print documents.
