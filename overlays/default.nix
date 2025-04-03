@@ -1,6 +1,3 @@
-{ pkgs, lib, ... }:
-{
-	nixpkgs.overlays = [
-		(import ./fastfetch-hyprland-fix.nix)
-	];
-}
+[
+	(import ./fastfetch-hyprland-fix)
+]
