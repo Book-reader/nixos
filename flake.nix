@@ -4,7 +4,6 @@
 	inputs = {
 		nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
 		nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-		# clipboard-sync.url = "github:dnut/clipboard-sync";
 	};
 
 
@@ -25,7 +24,6 @@
 				specialArgs = { inherit inputs unstable pkgs nixpkgs; };
 				modules = [
 					./configuration.nix
-					# inputs.clipboard-sync.nixosModules.default
 				];
 			};
 		};

@@ -13,22 +13,6 @@ in
 			./hardware-configuration.nix
 		];
 
-/*	nixpkgs.overlays = let
-		clipboard-sync-flake = import (pkgs.fetchFromGitHub {
-			owner = "dnut";
-			repo = "clipboard-sync";
-			rev = "943e49e0a9a16b54bbab3704e99b6cf6ad4ea19f";
-			sha256 = "sha256-kTXsO+hskCfX36+Ez1fHu9SO54uUY2lofkrbMKE3Vrk=";
-		});
-	in [
-		(final: prev: {
-    			clipboard-sync = clipboard-sync-flake.packages.${builtins.currentSystem}.default {};
-		})
-	];
-	clipboard-sync = {
-		url = "github:dnut/clipboard-sync";
-	};*/
-
 	nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 	zramSwap.enable = true;
