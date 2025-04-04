@@ -187,6 +187,7 @@ in
 		unzip
 		vscode
 		bat
+		tree
 		# (import ./nix/default.nix).default
 	];
 
