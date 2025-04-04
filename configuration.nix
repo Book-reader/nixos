@@ -196,7 +196,8 @@ in
 		man-pages
 		man-pages-posix
 		pipx
-		(pkgs.callPackage ./pkgs/clipboard-sync.nix {})
+		# clipboard-sync
+		# (pkgs.callPackage ./pkgs/clipboard-sync.nix {})
 		(pkgs.callPackage ./pkgs/betterdiscord-installer.nix {})
 		zip
 		unzip
