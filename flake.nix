@@ -23,7 +23,20 @@
 				system = builtins.currentSystem;
 				specialArgs = { inherit inputs unstable pkgs nixpkgs; };
 				modules = [
-					./configuration.nix
+					./hosts/laptop/configuration.nix
+					./modules/user.nix
+					./modules/cli-tools.nix
+					./modules/gui-programs.nix
+					./modules/hyprland.nix
+				];
+			};
+			NixOS-NUC = nixpkgs.lib.nixosSystem {
+				system = builtins.currentSystem;
+				specialArgs = { inherit inputs unstable pkgs nixpkgs; };
+				modules = [
+					./hosts/nuc/configuration.nix
+					./modules/user.nix
+					./modules/cli-tools.nix
 				];
 			};
 		};

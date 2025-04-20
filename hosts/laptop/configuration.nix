@@ -127,16 +127,9 @@ in
 	# List packages installed in system profile. To search, run:
 	# $ nix search wget
 	environment.systemPackages = with pkgs; [
-		kakoune # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+		# Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
 		alacritty
 		waybar
-		git
-		htop
-		btop
-		wget
-		fastfetch
-		fish
-		nix-your-shell
 		# starship
 		# Hypr*
 		hyprlock
@@ -145,7 +138,6 @@ in
 		# End Hypr*
 		tofi
 		rofi-wayland
-		distrobox
 		nemo
 		nemo-fileroller
 		file-roller
@@ -158,17 +150,16 @@ in
 		pamixer
 		ffmpegthumbnailer
 		# trashy # trash-cli replacement. unmaintained :(
-		gtrash # another trash-cli replacement
+		# another trash-cli replacement
 		wl-clipboard
 		networkmanagerapplet
-		eza
+		
 		prismlauncher
-		github-cli
+		
 		gparted
 		xorg.xhost
 		auto-cpufreq
 		papirus-icon-theme
-		mlocate
 		grim
 		slurp
 		rustup
@@ -176,18 +167,10 @@ in
 		swaynotificationcenter
 		mpv
 		wf-recorder
-		ffmpeg
-		man-pages
-		man-pages-posix
-		pipx
 		# clipboard-sync
 		# (pkgs.callPackage ./pkgs/clipboard-sync.nix {})
-		(pkgs.callPackage ./pkgs/betterdiscord-installer.nix {})
-		zip
-		unzip
+		(pkgs.callPackage ../../pkgs/betterdiscord-installer.nix {})
 		vscode
-		bat
-		tree
 		# (import ./nix/default.nix).default
 	];
 
