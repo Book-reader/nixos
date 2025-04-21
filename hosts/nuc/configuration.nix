@@ -10,6 +10,8 @@
       ./hardware-configuration.nix
     ];
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -63,6 +65,9 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
     shell = pkgs.fish;
+    openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICH5PqjKgnfryfMZaFgDv8aUjC9fF6y7wAQXLtLKIy1U user"
+    ];
   };
   programs.fish.enable = true;
 
@@ -87,13 +92,39 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  services.openssh = {
+      enable = true;
+      settings = {
+          # PasswordAuthentication = false;
+          # KbdInteractiveAuthentication = false;
+          PermitRootLogin = "no";
+      };
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
+  networking.wireguard = {
+      enable = true;
+      interfaces = {
+          NUC = {
+              ips = [ "10.8.0.7/24" ];
+              # address = [ "10.8.0.7/24" ];
+              listenPort = 51820;
+              # mtu = 1360;
+              privateKeyFile = "/etc/wireguard/private.key";
+              peers = [{
+                  publicKey = "WRvoZtk5jopY/15cCKJF1QzaI+MZhpcYzH0SBoUfK3o=";
+                  presharedKeyFile = "/etc/wireguard/preshared.key";
+                  allowedIPs = [ "10.8.0.0/24" ];
+                  endpoint = (import /etc/wireguard/server-ip.nix {}).ip;
+                  persistentKeepalive = 25;
+              }];
+          };
+      };
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
