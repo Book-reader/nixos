@@ -109,7 +109,7 @@
   networking.wireguard = {
       enable = true;
       interfaces = {
-          NUC = {
+          wg0 = {
               ips = [ "10.8.0.7/24" ];
               # address = [ "10.8.0.7/24" ];
               listenPort = 51820;
@@ -125,6 +125,8 @@
           };
       };
   };
+
+  networking.wg-quick = {};
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
