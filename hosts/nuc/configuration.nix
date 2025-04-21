@@ -18,14 +18,42 @@
 
   networking = {
       hostName = "NixOS-NUC"; # Define your hostname.
-      interfaces.eno1 = {
+      /*interfaces.eno1 = {
           ipv4.addresses = [{
               address = "192.168.20.3";
               prefixLength = 24;
           }];
       };
+      defaultGateway = {
+          address = "192.168.20.255";
+          interface = "eno1";
+      };
+      useDHCP = true;
+      enableIPv6 = false;*/
+      interfaces = {};
   };
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
+  fileSystems =
+  let
+    ip = "192.168.20.2";
+    automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s,rw,defaults,_netdev";
+    credentials = "credentials=/etc/smb-secrets";
+    uid = "uid=1000,gid=100";
+    options = "${automount_opts},${credentials},${uid}";
+  in
+  {
+      "/nas/home" = {
+          device = "//${ip}/home";
+          fsType = "cifs";
+          options = [options];
+      };
+      "/nas/docker" = {
+          device = "//${ip}/docker";
+          fsType = "cifs";
+          options = ["${options},nobrl"];
+      };
+  };
+  networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -62,7 +90,7 @@
   users.users.user = {
     isNormalUser = true;
     description = "user";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "podman" ];
     packages = with pkgs; [];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [
@@ -79,7 +107,17 @@
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
+    cifs-utils
   ];
+
+  virtualisation = {
+      containers.enable = true;
+      podman = {
+          enable = true;
+          dockerCompat = true;
+          defaultNetwork.settings.dns_enabled = true;
+      };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
