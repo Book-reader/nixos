@@ -90,12 +90,19 @@
   users.users.user = {
     isNormalUser = true;
     description = "user";
-    extraGroups = [ "networkmanager" "wheel" "podman" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICH5PqjKgnfryfMZaFgDv8aUjC9fF6y7wAQXLtLKIy1U user"
     ];
+  };
+
+  users.users.immich = {
+      isNormalUser = true;
+      uid = 1001;
+      home = "/immich";
+      shell = "/sbin/nologin";
   };
   programs.fish.enable = true;
 
@@ -112,11 +119,7 @@
 
   virtualisation = {
       containers.enable = true;
-      podman = {
-          enable = true;
-          dockerCompat = true;
-          defaultNetwork.settings.dns_enabled = true;
-      };
+      docker.enable = true;
   };
 
   # Some programs need SUID wrappers, can be configured further or are
