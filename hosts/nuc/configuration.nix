@@ -52,6 +52,11 @@
           fsType = "cifs";
           options = ["${options},nobrl"];
       };
+      "/nas/media" = {
+          device = "//${ip}/media";
+          fsType = "cifs";
+          options = ["${options}"];
+      };
   };
   networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
 
