@@ -172,6 +172,7 @@ in
 		(pkgs.callPackage ../../pkgs/betterdiscord-installer.nix {})
 		vscode
 		# (import ./nix/default.nix).default
+		syncthing
 	];
 
 	security.polkit.enable = true;
@@ -206,6 +207,7 @@ in
 	services.flatpak.enable = true;
 	services.dbus.enable = true;
 	services.gvfs.enable = true;
+	services.syncthing.enable = true;
 	# services.clipboard-sync.enable = true;
 
 	# Enable CUPS to print documents.
