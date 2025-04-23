@@ -39,6 +39,18 @@
 					./modules/cli-tools.nix
 				];
 			};
+			NixOS-Desktop = nixpkgs.lib.nixosSystem {
+				system = builtins.currentSystem;
+				specialArgs = { inherit inputs unstable pkgs nixpkgs; };
+				modules = [
+					./hosts/desktop/configuration.nix
+					./modules/user.nix
+					./modules/cli-tools.nix
+					./modules/gui-programs.nix
+					./modules/hyprland.nix
+				];
+			};
+
 		};
 	};
 }
