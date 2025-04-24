@@ -172,7 +172,10 @@ in
 		(pkgs.callPackage ../../pkgs/betterdiscord-installer.nix {})
 		vscode
 		# (import ./nix/default.nix).default
+		syncthing
 	];
+
+	systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
 
 	security.polkit.enable = true;
 
@@ -210,6 +213,19 @@ in
 
 	# Enable CUPS to print documents.
 	services.printing.enable = true;
+
+	services.syncthing = let
+		devices = import ../../../.config/syncthing/config.nix;
+	in {
+		enable = true;
+		key = "${/home/user/.config/syncthing/key.pem}";
+		cert = "${/home/user/.config/syncthing/cert.pem}";
+		settings = {
+			devices = {
+				laptop = { id = devices.laptop; };
+			};
+		};
+	};
 
 	# Enable sound.
 	# hardware.pulseaudio.enable = true;
