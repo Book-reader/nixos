@@ -215,7 +215,7 @@ in
 	services.printing.enable = true;
 
 	services.syncthing = let
-		devices = import ../../../.config/syncthing/config.nix;
+		devices = import /home/user/.config/syncthing/config.nix;
 	in {
 		enable = true;
 		user = "user";
@@ -223,9 +223,24 @@ in
 		cert = "${/home/user/.config/syncthing/cert.pem}";
 		settings = {
 			devices = {
-				laptop = { id = devices.laptop; };
+				"laptop" = { id = devices.laptop; };
 			};
 		};
+			folders = {
+				"git" = {
+					path = "/home/user/git";
+					devices = [ "laptop" ];
+				};
+				"code" = {
+					path = "/home/user/code";
+					devices = [ "laptop" ];
+				};
+				"PrismLauncher" = {
+					path = "/home/user/.local/share/PrismLauncher";
+					devices = [ "laptop" ];
+				};
+			};
+
 	};
 
 	# Enable sound.
@@ -247,7 +262,7 @@ in
 	services.libinput.enable = true;
 
 	# Open ports in the firewall.
-	# networking.firewall.allowedTCPPorts = [ ... ];
+	networking.firewall.allowedTCPPorts = [ 53317 ];
 	# networking.firewall.allowedUDPPorts = [ ... ];
 	# Or disable the firewall altogether.
 	# networking.firewall.enable = false;
