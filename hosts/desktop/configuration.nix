@@ -218,6 +218,7 @@ in
 		devices = import ../../../.config/syncthing/config.nix;
 	in {
 		enable = true;
+		user = "user";
 		key = "${/home/user/.config/syncthing/key.pem}";
 		cert = "${/home/user/.config/syncthing/cert.pem}";
 		settings = {
