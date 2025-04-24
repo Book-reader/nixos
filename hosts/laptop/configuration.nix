@@ -207,11 +207,38 @@ in
 	services.flatpak.enable = true;
 	services.dbus.enable = true;
 	services.gvfs.enable = true;
-	services.syncthing.enable = true;
 	# services.clipboard-sync.enable = true;
 
 	# Enable CUPS to print documents.
 	services.printing.enable = true;
+
+	services.syncthing = let
+		devices = import /home/user/.config/syncthing/config.nix;
+	in {
+		enable = true;
+		key = "${/home/user/.config/syncthing/key.pem}";
+		cert = "${/home/user/.config/syncthing/cert.pem}";
+		settings = {
+			devices = {
+				"desktop" = { id = devices.desktop; };
+			};
+			folders = {
+				"git" = {
+					path = "/home/user/git";
+					devices = [ "desktop" ];
+				};
+				"code" = {
+					path = "/home/user/code";
+					devices = [ "desktop" ];
+				};
+				"PrismLauncher" = {
+					path = "/home/user/.local/share/PrismLauncher";
+					devices = [ "desktop" ];
+				};
+			};
+		};
+	};
+
 
 	# Enable sound.
 	# hardware.pulseaudio.enable = true;
@@ -232,7 +259,7 @@ in
 	services.libinput.enable = true;
 
 	# Open ports in the firewall.
-	# networking.firewall.allowedTCPPorts = [ ... ];
+	networking.firewall.allowedTCPPorts = [ 25565 53317 ];
 	# networking.firewall.allowedUDPPorts = [ ... ];
 	# Or disable the firewall altogether.
 	# networking.firewall.enable = false;
