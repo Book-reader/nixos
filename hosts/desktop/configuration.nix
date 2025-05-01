@@ -251,6 +251,10 @@ in
 					path = "/home/user/.var/app/net.lutris.Lutris/data";
 					devices = [ "laptop" ];
 				};
+				"Lutris Games" = {
+					path = "/home/user/Documents/games";
+					devices = [ "laptop" ];
+				};
 			};
 
 	};
