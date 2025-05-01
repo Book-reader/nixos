@@ -245,11 +245,11 @@ in
 				"Vintage Story" = {
 					path = "/home/user/.var/app/at.vintagestory.VintageStory/config/VintagestoryData";
 					# ignore = [ "clientsettings.json" ];
-					devices = [ "desktop" ];
+					devices = [ "laptop" ];
 				};
 				"Lutris" = {
 					path = "/home/user/.var/app/net.lutris.Lutris/data";
-					devices = [ "desktop" ];
+					devices = [ "laptop" ];
 				};
 			};
 
