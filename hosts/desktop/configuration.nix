@@ -135,6 +135,7 @@ in
 		hyprlock
 		hypridle
 		hyprpaper
+		hyprland
 		# End Hypr*
 		tofi
 		rofi-wayland
@@ -173,6 +174,7 @@ in
 		vscode
 		# (import ./nix/default.nix).default
 		syncthing
+		nvtopPackages.amd
 	];
 
 	systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
@@ -209,6 +211,7 @@ in
 	services.flatpak.enable = true;
 	services.dbus.enable = true;
 	services.gvfs.enable = true;
+	# services.cloudflare-warp.enable = true;
 	# services.clipboard-sync.enable = true;
 
 	# Enable CUPS to print documents.
@@ -238,6 +241,15 @@ in
 				"PrismLauncher" = {
 					path = "/home/user/.local/share/PrismLauncher";
 					devices = [ "laptop" ];
+				};
+				"Vintage Story" = {
+					path = "/home/user/.var/app/at.vintagestory.VintageStory/config/VintagestoryData";
+					# ignore = [ "clientsettings.json" ];
+					devices = [ "desktop" ];
+				};
+				"Lutris" = {
+					path = "/home/user/.var/app/net.lutris.Lutris/data";
+					devices = [ "desktop" ];
 				};
 			};
 
