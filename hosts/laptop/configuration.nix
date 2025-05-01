@@ -236,6 +236,15 @@ in
 					path = "/home/user/.local/share/PrismLauncher";
 					devices = [ "desktop" ];
 				};
+				"Vintage Story" = {
+					path = "/home/user/.var/app/at.vintagestory.VintageStory/config/VintagestoryData";
+					# ignore = [ "clientsettings.json" ];
+					devices = [ "desktop" ];
+				};
+				"Lutris" = {
+					path = "/home/user/.var/app/net.lutris.Lutris/data";
+					devices = [ "desktop" ];
+				};
 			};
 		};
 	};
