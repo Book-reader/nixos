@@ -202,7 +202,16 @@ in
 	# services.openssh.enable = true;
 
 	services.mullvad-vpn.enable = true;
-	services.auto-cpufreq.enable = true;
+	services.auto-cpufreq = {
+		enable = true;
+		settings = {
+			battery = {
+				enable_thresholds = true;
+				start_threshold = 70;
+				stop_threshold = 80;
+			};
+		};
+	};
 	services.flatpak.enable = true;
 	services.dbus.enable = true;
 	services.gvfs.enable = true;
