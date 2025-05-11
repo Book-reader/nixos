@@ -169,7 +169,7 @@ in
 		# clipboard-sync
 		# (pkgs.callPackage ./pkgs/clipboard-sync.nix {})
 		(pkgs.callPackage ../../pkgs/betterdiscord-installer.nix {})
-		vscode
+		vscode.fhs
 		# (import ./nix/default.nix).default
 		syncthing
 	];
