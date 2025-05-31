@@ -9,14 +9,12 @@ let
     sha256 = "sha256-In5J6TWoJsFODDwMXd1lMg3341IZJD2OJebVtgISxP0=";
   };
 
-  appimageContents = appimageTools.extract { inherit name src pname version; };
+  appimageContents = appimageTools.extract { inherit src pname version; };
 in
 appimageTools.wrapType2 {
-  inherit name src;
+  inherit src version pname;
 
   extraInstallCommands = ''
-    mv $out/bin/${name} $out/bin/${pname}
-
     install -m 444 -D ${appimageContents}/betterdiscord-installer.desktop -t $out/share/applications
     substituteInPlace $out/share/applications/betterdiscord-installer.desktop \
       --replace 'Exec=AppRun' 'Exec=${pname}'
