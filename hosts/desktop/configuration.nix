@@ -7,7 +7,6 @@ let
 	locale = "en_NZ.UTF-8";
 in
 {
-
 	imports =
 		[ # Include the results of the hardware scan.
 			./hardware-configuration.nix
@@ -156,10 +155,11 @@ in
 		networkmanagerapplet
 		
 		prismlauncher jdk23
+
+		steam
 		
 		gparted
 		xorg.xhost
-		auto-cpufreq
 		papirus-icon-theme
 		grim
 		slurp
@@ -171,10 +171,22 @@ in
 		# clipboard-sync
 		# (pkgs.callPackage ./pkgs/clipboard-sync.nix {})
 		(pkgs.callPackage ../../pkgs/betterdiscord-installer.nix {})
-		vscode
+		vscode.fhs
 		# (import ./nix/default.nix).default
 		syncthing
 		nvtopPackages.amd
+		(pkgs.callPackage pkgs.writeTextFile {
+			name = "fix-controller";
+			text = ''
+			# Disable DS4 touchpad acting as mouse
+			# USB
+			ATTRS{name}=="Sony Computer Entertainment Wireless Controller Touchpad", ENV{LIBINPUT_IGNORE_DEVICE}="1"
+			# Bluetooth
+			ATTRS{name}=="Wireless Controller Touchpad", ENV{LIBINPUT_IGNORE_DEVICE}="1"
+			'';
+			destination = "/etc/udev/rules.d/72-ds4tm.rules";
+		})
+
 	];
 
 	systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
@@ -207,7 +219,6 @@ in
 	# services.openssh.enable = true;
 
 	services.mullvad-vpn.enable = true;
-	services.auto-cpufreq.enable = true;
 	services.flatpak.enable = true;
 	services.dbus.enable = true;
 	services.gvfs.enable = true;
