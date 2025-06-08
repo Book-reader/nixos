@@ -12,6 +12,11 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  swapDevices = [{
+      device = "/var/lib/swapfile";
+      size = 16*1024; # 16 GB
+  }];
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -51,6 +56,11 @@
           device = "//${ip}/docker";
           fsType = "cifs";
           options = ["${options},nobrl"];
+      };
+      "/nas/docker-postgres" = {
+          device = "//${ip}/docker";
+          fsType = "cifs";
+          options = ["${automount_opts},${credentials},uid=70,gid=70,nobrl,file_mode=0700,dir_mode=0700"];
       };
       "/nas/media" = {
           device = "//${ip}/media";
@@ -109,6 +119,16 @@
       home = "/immich";
       shell = "/sbin/nologin";
   };
+
+  users.users.postgres = {
+      # isNormalUser = true;
+      uid = 70;
+      group = "postgres";
+      home = "/dev/null";
+      shell = "/sbin/nologin";
+  };
+  users.groups.postgres.gid = 70;
+
   programs.fish.enable = true;
 
   # Allow unfree packages
