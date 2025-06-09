@@ -172,6 +172,7 @@ in
 		vscode.fhs
 		# (import ./nix/default.nix).default
 		syncthing
+		wireguard-tools
 	];
 
 	security.polkit.enable = true;
@@ -209,6 +210,9 @@ in
 				enable_thresholds = true;
 				start_threshold = 70;
 				stop_threshold = 80;
+			};
+			charger = {
+				energy_perf_bias = "performance";
 			};
 		};
 	};
