@@ -85,6 +85,7 @@ in
 		# xdgOpenUsePortal = true;
 		extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 	};
+	programs.niri.enable = true;
 	environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
 
@@ -173,6 +174,7 @@ in
 		# (import ./nix/default.nix).default
 		syncthing
 		wireguard-tools
+		xwayland-satellite
 	];
 
 	security.polkit.enable = true;

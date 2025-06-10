@@ -13,6 +13,7 @@ let
 in
 appimageTools.wrapType2 {
   inherit src version pname;
+  extraPkgs = pkgs: [ pkgs.xorg.libxshmfence ];
 
   extraInstallCommands = ''
     install -m 444 -D ${appimageContents}/betterdiscord-installer.desktop -t $out/share/applications
