@@ -57,6 +57,7 @@
 				system = builtins.currentSystem;
 				specialArgs = { inherit inputs nixpkgs; };
 				modules = [
+					pkgsOverride
 					./hosts/nuc/configuration.nix
 					./modules/user.nix
 					./modules/cli-tools.nix
