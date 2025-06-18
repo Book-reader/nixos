@@ -175,6 +175,8 @@ in
 		syncthing
 		wireguard-tools
 		xwayland-satellite
+		python3
+		wineWowPackages.waylandFull
 	];
 
 	security.polkit.enable = true;
