@@ -62,6 +62,11 @@
           fsType = "cifs";
           options = ["${automount_opts},${credentials},uid=70,gid=70,nobrl,file_mode=0700,dir_mode=0700"];
       };
+      "/nas/docker-mastodon" = {
+          device = "//${ip}/docker";
+          fsType = "cifs";
+          options = ["${automount_opts},${credentials},uid=991,gid=991,nobrl,file_mode=0700,dir_mode=0700"];
+      };
       "/nas/media" = {
           device = "//${ip}/media";
           fsType = "cifs";
@@ -128,6 +133,17 @@
       shell = "/sbin/nologin";
   };
   users.groups.postgres.gid = 70;
+
+
+  users.users.mastodon= {
+      isSystemUser = true;
+      uid = 991;
+      group = "mastodon";
+      extraGroups = [ "users" ];
+      home = "/dev/null";
+      shell = "/sbin/nologin";
+  };
+  users.groups.mastodon.gid = 991;
 
   programs.fish.enable = true;
 
