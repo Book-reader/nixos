@@ -85,6 +85,7 @@ in
 		# xdgOpenUsePortal = true;
 		extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 	};
+	programs.niri.enable = true;
 	environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
 
@@ -172,6 +173,10 @@ in
 		vscode.fhs
 		# (import ./nix/default.nix).default
 		syncthing
+		wireguard-tools
+		xwayland-satellite
+		python3
+		wineWowPackages.waylandFull
 	];
 
 	security.polkit.enable = true;
@@ -209,6 +214,9 @@ in
 				enable_thresholds = true;
 				start_threshold = 70;
 				stop_threshold = 80;
+			};
+			charger = {
+				energy_perf_bias = "performance";
 			};
 		};
 	};
