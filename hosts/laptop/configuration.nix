@@ -273,6 +273,8 @@ in
 	# Enable sound.
 	# hardware.pulseaudio.enable = true;
 	# OR
+	# rtkit changes audio scheduling and should fix audio crackling issues in some steam games
+	security.rtkit.enable = true;
 	services.pipewire = {
 		enable = true;
 		pulse.enable = true;
