@@ -177,6 +177,9 @@ in
 		xwayland-satellite
 		python3
 		wineWowPackages.waylandFull
+		file
+		# (pkgs.callPackage ../../pkgs/synology-active-backup/default.nix {})
+		(pkgs.callPackage ../../pkgs/waterfox.nix {})
 	];
 
 	security.polkit.enable = true;
