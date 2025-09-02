@@ -180,6 +180,8 @@ in
 		file
 		# (pkgs.callPackage ../../pkgs/synology-active-backup/default.nix {})
 		(pkgs.callPackage ../../pkgs/waterfox.nix {})
+		qutebrowser
+		emacs
 	];
 
 	security.polkit.enable = true;
