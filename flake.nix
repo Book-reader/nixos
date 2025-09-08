@@ -7,7 +7,7 @@
 			#overlays = import ./overlays;
 			#config.allowUnfree = true;
 		};
-		# nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+		nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
 		/*lix = {
 			url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
@@ -22,11 +22,11 @@
 	};
 
 
-	outputs = { self, nixpkgs,/* nixpkgs-unstable, lix, lix-module,*/ ... }@inputs:
+	outputs = { self, nixpkgs, nixpkgs-unstable, /*lix, lix-module,*/ ... }@inputs:
 	let
-		/*unstable = import nixpkgs-unstable {
+		unstable = import nixpkgs-unstable {
 			config.allowUnfree = true;
-		};*/
+		};
 		/*pkgs = import nixpkgs {
 			overlays = import ./overlays;
 			# overlays = [ lix-module.overlays.default ] ++ import ./overlays;
@@ -43,7 +43,7 @@
 			NixOS-PC = nixpkgs.lib.nixosSystem {
 				# I don't like flakes enough to allow this to be pure
 				system = builtins.currentSystem;
-				specialArgs = { inherit inputs nixpkgs; };
+				specialArgs = { inherit inputs nixpkgs unstable; };
 				modules = [
 					pkgsOverride
 					./hosts/laptop/configuration.nix

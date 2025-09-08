@@ -182,6 +182,12 @@ in
 		(pkgs.callPackage ../../pkgs/waterfox.nix {})
 		qutebrowser
 		emacs
+		unstable.tea # for authenticating with forgejo servers
+
+		bitwarden-cli # both for bitwarden integration in qutebrowser
+		keyutils
+
+		wakatime-cli
 	];
 
 	security.polkit.enable = true;
