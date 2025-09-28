@@ -45,7 +45,8 @@
 }:
 
 let
-  version = "6.5.11";
+  # version = "6.5.11";
+  version = "6.6.3";
 
   desktopItem = makeDesktopItem {
     name = "waterfox";
@@ -82,7 +83,8 @@ stdenv.mkDerivation (finalAttrs: {
 
   src = fetchurl {
     url = "https://cdn1.waterfox.net/waterfox/releases/${finalAttrs.version}/Linux_x86_64/waterfox-${finalAttrs.version}.tar.bz2";
-    hash = "sha256-46jBevpxYNZ/fmyu3RBpgF87XPTofo4/wPtzZXGDi8U=";
+    # hash = "sha256-46jBevpxYNZ/fmyu3RBpgF87XPTofo4/wPtzZXGDi8U=";
+    hash = "sha256-dYjQ7ebR72sTfjfFEvrga4WFjbDlv6E9L1tYuqvGROo=";
   };
 
   nativeBuildInputs = [

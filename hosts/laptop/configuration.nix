@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, nixpkgs, unstable, ... }:
+{ config, lib, pkgs, nixpkgs, /*unstable,*/ ... }:
 let
 	locale = "en_NZ.UTF-8";
 in
@@ -64,6 +64,13 @@ in
 		LC_PAPER = locale;
 		LC_TELEPHONE = locale;
 		LC_TIME = locale;
+	};
+	  i18n.inputMethod = {
+		enable = true;
+		type = "ibus";
+		ibus.engines = with pkgs.ibus-engines; [
+			m17n
+		];
 	};
 	# console = {
 	# 	font = "Lat2-Terminus16";
@@ -137,7 +144,7 @@ in
 		hyprpaper
 		# End Hypr*
 		tofi
-		rofi-wayland
+		rofi
 		nemo
 		nemo-fileroller
 		file-roller
@@ -182,7 +189,7 @@ in
 		(pkgs.callPackage ../../pkgs/waterfox.nix {})
 		qutebrowser
 		emacs
-		unstable.tea # for authenticating with forgejo servers
+		/*unstable.*/tea # for authenticating with forgejo servers
 
 		bitwarden-cli # both for bitwarden integration in qutebrowser
 		keyutils
