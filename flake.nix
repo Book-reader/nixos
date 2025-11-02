@@ -8,6 +8,10 @@
 			#config.allowUnfree = true;
 		};*/
 		nixpkgs/*-unstable*/.url = "github:NixOS/nixpkgs/nixos-unstable";
+		/*nur = {
+			url = "github:nix-community/NUR";
+			inputs.nixpkgs.follows = "nixpkgs";
+		};*/
 
 		/*lix = {
 			url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
@@ -22,7 +26,7 @@
 	};
 
 
-	outputs = { self, nixpkgs, /*nixpkgs-unstable,*/ /*lix, lix-module,*/ ... }@inputs:
+	outputs = { self, nixpkgs, nur, /*nixpkgs-unstable,*/ /*lix, lix-module,*/ ... }@inputs:
 	let
 		/*unstable = import nixpkgs-unstable {
 			config.allowUnfree = true;
@@ -46,6 +50,7 @@
 				specialArgs = { inherit inputs nixpkgs /*unstable*/; };
 				modules = [
 					pkgsOverride
+					# nur.modules.nixos.default
 					./hosts/laptop/configuration.nix
 					./modules/user.nix
 					./modules/cli-tools.nix

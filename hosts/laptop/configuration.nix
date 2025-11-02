@@ -14,12 +14,14 @@ in
 
 	nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+	programs.nix-ld.enable = true;
+
 	zramSwap.enable = true;
 	swapDevices = [ { device = "/swap/swapfile"; } ];
 	fileSystems = {
-		"/".options = [ "compress=zstd:1" ];
-		"/home".options = [ "compress=zstd:1" ];
-		"/nix".options = [ "compress=zstd:1" "noatime" ];
+		"/".options = [ "compress=zstd:3" ];
+		"/home".options = [ "compress=zstd:3" ];
+		"/nix".options = [ "compress=zstd:3" "noatime" ];
 		"/swap".options = [ "noatime" ];
 	};
 
@@ -35,6 +37,9 @@ in
 	# Use the systemd-boot EFI boot loader.
 	boot.loader.systemd-boot.enable = true;
 	boot.loader.efi.canTouchEfiVariables = true;
+	# boot.kernelParams = [
+	# 	"intel_pstate=disable"
+	# ];
 
 	networking.hostName = "NixOS-PC"; # Define your hostname.
 	# Pick only one of the below networking options.
@@ -65,13 +70,13 @@ in
 		LC_TELEPHONE = locale;
 		LC_TIME = locale;
 	};
-	  i18n.inputMethod = {
-		enable = true;
-		type = "ibus";
-		ibus.engines = with pkgs.ibus-engines; [
-			m17n
-		];
-	};
+	# i18n.inputMethod = {
+	# 	enable = true;
+	# 	type = "ibus";
+	# 	ibus.engines = with pkgs.ibus-engines; [
+	# 		m17n
+	# 	];
+	# };
 	# console = {
 	# 	font = "Lat2-Terminus16";
 	# 	keyMap = "us";
@@ -108,7 +113,7 @@ in
 		# packages = with pkgs; [];
 	};
 
-	systemd.user.services.polkit-gnome-authentication-agent-1 = {
+	systemd.user.services.gnome-polkit = {
 		enable = true;
 		description = "polkit-gnome-authentication-agent-1";
 		wants = [ "graphical-session.target" ];
@@ -133,6 +138,7 @@ in
 
 	# List packages installed in system profile. To search, run:
 	# $ nix search wget
+	nixpkgs.config.allowUnfree = true;
 	environment.systemPackages = with pkgs; [
 		# Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
 		alacritty
@@ -195,6 +201,10 @@ in
 		keyutils
 
 		wakatime-cli
+
+		# nur.repos.ataraxiasjel.waydroid-script
+
+		gdu
 	];
 
 	security.polkit.enable = true;
@@ -209,8 +219,9 @@ in
 
 	services.gnome.gnome-keyring.enable = true;
 
-	virtualisation.containers.enable = true;
 	virtualisation = {
+		containers.enable = true;
+		# waydroid.enable = true;
 		podman = {
 			enable = true;
 			# Create a `docker` alias for podman, to use it as a drop-in replacement
@@ -235,6 +246,7 @@ in
 			};
 			charger = {
 				energy_perf_bias = "performance";
+				# scaling_max_freq = 4800000;
 			};
 		};
 	};
@@ -249,7 +261,7 @@ in
 	services.syncthing = let
 		devices = import /home/user/.config/syncthing/config.nix;
 	in {
-		enable = true;
+		enable = false; # true;
 		user = "user";
 		key = "${/home/user/.config/syncthing/key.pem}";
 		cert = "${/home/user/.config/syncthing/cert.pem}";
