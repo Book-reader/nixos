@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, nixpkgs, pkgs, ... }:
 
 {
   imports =
@@ -18,8 +18,15 @@
   }];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    # systemd-boot.enable = true;
+    grub = {
+      enable = true;
+      efiSupport = true;
+      device = "nodev";
+    };
+    efi.canTouchEfiVariables = true;
+  };
 
   networking = {
       hostName = "NixOS-NUC"; # Define your hostname.
@@ -55,7 +62,7 @@
       "/nas/docker" = {
           device = "//${ip}/docker";
           fsType = "cifs";
-          options = ["${options},nobrl"];
+          options = ["${options},file_mode=0770,dir_mode=0770,nobrl"];
       };
       "/nas/docker-postgres" = {
           device = "//${ip}/docker";
@@ -66,6 +73,11 @@
           device = "//${ip}/docker";
           fsType = "cifs";
           options = ["${automount_opts},${credentials},uid=991,gid=991,nobrl,file_mode=0700,dir_mode=0700"];
+      };
+      "/nas/docker-root" = {
+          device = "//${ip}/docker";
+          fsType = "cifs";
+          options = ["${automount_opts},${credentials},uid=0,gid=0,nobrl"];
       };
       "/nas/media" = {
           device = "//${ip}/media";
@@ -108,11 +120,11 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.user = {
-    isNormalUser = true;
-    description = "user";
+    # isNormalUser = true;
+    # description = "user";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
-    packages = with pkgs; [];
-    shell = pkgs.fish;
+    # packages = with pkgs; [];
+    # shell = pkgs.fish;
     openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICH5PqjKgnfryfMZaFgDv8aUjC9fF6y7wAQXLtLKIy1U user"
     ];

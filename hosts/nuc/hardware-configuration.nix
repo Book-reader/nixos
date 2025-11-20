@@ -8,7 +8,7 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "sdhci_pci" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
@@ -31,7 +31,42 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-0e2695fb653b.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-5e2dec464f7a.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-67379e18f3e9.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-821962377b9d.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-dc28199a5154.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-dcad967f45c6.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-f98ad3cff380.useDHCP = lib.mkDefault true;
+  # networking.interfaces.docker0.useDHCP = lib.mkDefault true;
   # networking.interfaces.eno1.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth0ba6ecb.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth0bbdb7c.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth23d9409.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth4077aa5.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth43d72c5.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth46a2763.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth4c1d873.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth53732bc.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth66b975b.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth6705921.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth673569a.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth6a4154c.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth6b682f3.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth75d1244.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth7a7e9cd.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vetha217ca4.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vetha4366ba.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vetha94ecc9.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethab77bef.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethb57b23f.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethb784159.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethd1496ec.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethe29dd3d.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethe91d5b2.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vetheca4ba3.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethfadc67b.useDHCP = lib.mkDefault true;
+  # networking.interfaces.wg0.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp1s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
