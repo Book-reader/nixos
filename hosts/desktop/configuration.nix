@@ -32,6 +32,22 @@ in
 			dev.enable = true;
 	};
 
+	# All the stuff other than graphics.enable is for foldingathome
+	hardware.graphics = {
+		enable = true;
+		enable32Bit = true;
+		extraPackages = with pkgs; [
+			rocmPackages.clr.icd
+			rocmPackages.clr
+			rocmPackages.rocminfo
+			rocmPackages.rocm-runtime
+		];
+	};
+	hardware.amdgpu.opencl.enable = true;
+	systemd.tmpfiles.rules = [
+		"L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
+	];
+
 	# Use the systemd-boot EFI boot loader.
 	boot.loader.systemd-boot.enable = true;
 	boot.loader.efi.canTouchEfiVariables = true;
@@ -100,7 +116,7 @@ in
 		# packages = with pkgs; [];
 	};
 
-	systemd.user.services.polkit-gnome-authentication-agent-1 = {
+	systemd.user.services.gnome-polkit = {
 		enable = true;
 		description = "polkit-gnome-authentication-agent-1";
 		wants = [ "graphical-session.target" ];
@@ -112,6 +128,24 @@ in
 			Restart = "on-failure";
 			RestartSec = 1;
 			TimeoutStopSec = 10;
+		};
+	};
+
+	systemd.services.folding-at-home = {
+		enable = true;
+		description = "We have folding at home. folding at home:";
+		wants = [ "network-online.target" ];
+		after = [ "network-online.target" ];
+		wantedBy = [ "network-online.target" ];
+		serviceConfig = {
+			Type = "simple";
+			ExecStart = "${pkgs.fahclient}/bin/fah-client";
+			WorkingDirectory = "/home/user/folding@home/";
+			Restart = "on-failure";
+			RestartSec = 1;
+			TimeoutStopSec = 10;
+			User="user";
+			Group="users";
 		};
 	};
 
@@ -137,7 +171,7 @@ in
 		hyprland
 		# End Hypr*
 		tofi
-		rofi-wayland
+		rofi
 		nemo
 		nemo-fileroller
 		file-roller
@@ -171,6 +205,7 @@ in
 		# clipboard-sync
 		# (pkgs.callPackage ./pkgs/clipboard-sync.nix {})
 		(pkgs.callPackage ../../pkgs/betterdiscord-installer.nix {})
+		(pkgs.callPackage ../../pkgs/waterfox.nix {})
 		vscode.fhs
 		# (import ./nix/default.nix).default
 		syncthing
@@ -187,6 +222,7 @@ in
 			destination = "/etc/udev/rules.d/72-ds4tm.rules";
 		})
 
+		fahclient
 	];
 
 	systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
