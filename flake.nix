@@ -42,12 +42,15 @@
 				config.allowUnfree = true;
 			};
 		});
+
+		username = "user";
+		locale = "en_NZ.UTF-8";
 	in {
 		nixosConfigurations = {
 			NixOS-PC = nixpkgs.lib.nixosSystem {
 				# I don't like flakes enough to allow this to be pure
 				system = builtins.currentSystem;
-				specialArgs = { inherit inputs nixpkgs /*unstable*/; };
+				specialArgs = let hostname = "NixOS-PC"; in { inherit inputs /*nixpkgs*/ username hostname locale/*unstable*/; };
 				modules = [
 					pkgsOverride
 					# nur.modules.nixos.default
@@ -55,22 +58,28 @@
 					./modules/user.nix
 					./modules/cli-tools.nix
 					./modules/gui-programs.nix
-					./modules/hyprland.nix
+					./modules/niri.nix
+					./modules/folding-at-home.nix
+					./modules/base.nix
+					./modules/networking.nix
+					./modules/cpufreq.nix
+					./modules/syncthing.nix
 				];
 			};
 			NixOS-NUC = nixpkgs.lib.nixosSystem {
 				system = builtins.currentSystem;
-				specialArgs = { inherit inputs nixpkgs; };
+				specialArgs = { inherit inputs /*nixpkgs*/ username; };
 				modules = [
 					pkgsOverride
 					./hosts/nuc/configuration.nix
 					./modules/user.nix
 					./modules/cli-tools.nix
+					./modules/folding-at-home.nix
 				];
 			};
 			NixOS-Desktop = nixpkgs.lib.nixosSystem {
 				system = builtins.currentSystem;
-				specialArgs = { inherit inputs nixpkgs; };
+				specialArgs = let hostname = "NixOS-Desktop"; in { inherit inputs /*nixpkgs*/ username hostname locale; };
 				modules = [
 					pkgsOverride
 					./hosts/desktop/configuration.nix
@@ -78,6 +87,10 @@
 					./modules/cli-tools.nix
 					./modules/gui-programs.nix
 					./modules/hyprland.nix
+					./modules/folding-at-home.nix
+					./modules/base.nix
+					./modules/networking.nix
+					./modules/syncthing.nix
 				];
 			};
 

@@ -108,55 +108,14 @@ in
 	services.xserver.xkb.layout = "us";
 	# services.xserver.xkb.options = "eurosign:e,caps:escape";
 	#
-	users.users.user = {
+/*	users.users.user = {
 		isNormalUser = true;
 		extraGroups = [ "networkmanager" "wheel" "dialout" "mlocate" ];
 		shell = pkgs.fish;
 		# User specific packages
 		# packages = with pkgs; [];
 	};
-
-	systemd.user.services.gnome-polkit = {
-		enable = true;
-		description = "polkit-gnome-authentication-agent-1";
-		wants = [ "graphical-session.target" ];
-		after = [ "graphical-session.target" ];
-		wantedBy = [ "graphical-session.target" ];
-		serviceConfig = {
-			Type = "simple";
-			ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-			Restart = "on-failure";
-			RestartSec = 1;
-			TimeoutStopSec = 10;
-		};
-	};
-
-	systemd.services.folding-at-home = {
-		enable = true;
-		description = "We have folding at home. folding at home:";
-		wants = [ "network-online.target" ];
-		after = [ "network-online.target" ];
-		wantedBy = [ "network-online.target" ];
-		serviceConfig = {
-			Type = "simple";
-			ExecStart = "${pkgs.fahclient}/bin/fah-client";
-			WorkingDirectory = "/home/user/folding@home/";
-			Restart = "on-failure";
-			RestartSec = 1;
-			TimeoutStopSec = 10;
-			User="user";
-			Group="users";
-		};
-	};
-
-
-	programs.fish = {
-		enable = true;
-		interactiveShellInit = ''
-			nix-your-shell fish | source
-		'';
-	};
-
+*/
 	# List packages installed in system profile. To search, run:
 	# $ nix search wget
 	environment.systemPackages = with pkgs; [

@@ -3,20 +3,13 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
 { config, lib, pkgs, nixpkgs, /*unstable,*/ ... }:
-let
-	locale = "en_NZ.UTF-8";
-in
 {
 	imports =
 		[ # Include the results of the hardware scan.
 			./hardware-configuration.nix
 		];
 
-	nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-	programs.nix-ld.enable = true;
-
-	zramSwap.enable = true;
 	swapDevices = [ { device = "/swap/swapfile"; } ];
 	fileSystems = {
 		"/".options = [ "compress=zstd:3" ];
@@ -44,57 +37,16 @@ in
 	environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";# Optionally, set the environment variable
 
 	# Use the systemd-boot EFI boot loader.
-	boot.loader.systemd-boot.enable = true;
-	boot.loader.efi.canTouchEfiVariables = true;
 	# boot.kernelParams = [
 	# 	"intel_pstate=disable"
 	# ];
 
-	networking.hostName = "NixOS-PC"; # Define your hostname.
-	# Pick only one of the below networking options.
-	# networking.wireless.enable = true;	# Enables wireless support via wpa_supplicant.
-	networking.networkmanager.enable = true;	# Easiest to use and most distros use this by default.
-	networking.wireguard.enable = true;
-
-	# A hack to fix mullvads local network sharing not working across subnets
-	# TODO: figure out why it breaks each time I resume from suspend and mullvad reconnects
-	# ip route add 192.168.0.0/16 via 192.168.2.1 dev wlp0s20f3 onlink table main
-	networking.interfaces.wlp0s20f3.ipv4.routes = [
-		{
-			address = "192.168.0.0";
-			via = "192.168.2.1";
-			prefixLength = 16;
-			options = {
-				table = "main";
-				onlink = "onlink"; # Another hack to get onlink working
-			};
-		}
-	];
-
-
-	hardware.bluetooth.enable = true;
-	services.blueman.enable = true;
-
-	# Set your time zone.
-	time.timeZone = "Pacific/Auckland";
 
 	# Configure network proxy if necessary
 	# networking.proxy.default = "http://user:password@proxy:port/";
 	# networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
 	# Select internationalisation properties.
-	i18n.defaultLocale = locale;
-	i18n.extraLocaleSettings = {
-		LC_ADDRESS = locale;
-		LC_IDENTIFICATION = locale;
-		LC_MEASUREMENT = locale;
-		LC_MONETARY = locale;
-		LC_NAME = locale;
-		LC_NUMERIC = locale;
-		LC_PAPER = locale;
-		LC_TELEPHONE = locale;
-		LC_TIME = locale;
-	};
 	# i18n.inputMethod = {
 	# 	enable = true;
 	# 	type = "ibus";
@@ -117,50 +69,10 @@ in
 		enable = true;
 		withUWSM = true;
 	};
-	xdg.portal = {
-		enable = true;
-		# xdgOpenUsePortal = true;
-		extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-	};
-	programs.niri.enable = true;
-	environment.sessionVariables.NIXOS_OZONE_WL = "1";
-
-
 	# Configure keymap in X11
 	services.xserver.xkb.layout = "us";
 	# services.xserver.xkb.options = "eurosign:e,caps:escape";
 	#
-	users.users.user = {
-		isNormalUser = true;
-		extraGroups = [ "networkmanager" "wheel" "dialout" "mlocate" ];
-		shell = pkgs.fish;
-		# User specific packages
-		# packages = with pkgs; [];
-	};
-
-	systemd.user.services.gnome-polkit = {
-		enable = true;
-		description = "polkit-gnome-authentication-agent-1";
-		wants = [ "graphical-session.target" ];
-		after = [ "graphical-session.target" ];
-		wantedBy = [ "graphical-session.target" ];
-		serviceConfig = {
-			Type = "simple";
-			ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-			Restart = "on-failure";
-			RestartSec = 1;
-			TimeoutStopSec = 10;
-		};
-	};
-
-
-	programs.fish = {
-		enable = true;
-		interactiveShellInit = ''
-			nix-your-shell fish | source
-		'';
-	};
-
 	# List packages installed in system profile. To search, run:
 	# $ nix search wget
 	nixpkgs.config.allowUnfree = true;
@@ -234,8 +146,6 @@ in
 		imagemagick # I like magick
 	];
 
-	security.polkit.enable = true;
-
 	# Some programs need SUID wrappers, can be configured further or are
 	# started in user sessions.
 	# programs.mtr.enable = true;
@@ -243,8 +153,6 @@ in
 		enable = true;
 		enableSSHSupport = true;
 	};
-
-	services.gnome.gnome-keyring.enable = true;
 
 	virtualisation = {
 		containers.enable = true;
@@ -270,20 +178,6 @@ in
 	};
 
 	services.mullvad-vpn.enable = true;
-	services.auto-cpufreq = {
-		enable = true;
-		settings = {
-			battery = {
-				enable_thresholds = true;
-				start_threshold = 70;
-				stop_threshold = 80;
-			};
-			charger = {
-				energy_perf_bias = "performance";
-				# scaling_max_freq = 4800000;
-			};
-		};
-	};
 	services.flatpak.enable = true;
 	services.dbus.enable = true;
 	services.gvfs.enable = true;
@@ -295,7 +189,7 @@ in
 		drivers = with pkgs; [ gutenprint cnijfilter2 ];
 	};
 
-	services.syncthing = let
+/*	services.syncthing = let
 		devices = import /home/user/.config/syncthing/config.nix;
 	in {
 		enable = false; # true;
@@ -334,28 +228,10 @@ in
 				};
 			};
 		};
-	};
+	};*/
 
-
-	# Enable sound.
-	# hardware.pulseaudio.enable = true;
-	# OR
-	# rtkit changes audio scheduling and should fix audio crackling issues in some steam games
-	security.rtkit.enable = true;
-	services.pipewire = {
-		enable = true;
-		pulse.enable = true;
-		alsa.enable = true;
-		alsa.support32Bit = true;
-		# May not be needed
-		# jack.enable = true;
-
-		# Currently enabled by default.
-		# media-session.enable = true;
-	};
 
 	# Enable touchpad support (enabled default in most desktopManager).
-	services.libinput.enable = true;
 
 	# Open ports in the firewall.
 	networking.firewall.allowedTCPPorts = [ 25565 53317 ];
