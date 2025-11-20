@@ -34,6 +34,15 @@ in
 			dev.enable = true;
 	};
 
+	hardware.graphics = {
+		enable = true;
+		extraPackages = with pkgs; [
+			intel-media-driver # For Broadwell (2014) or newer processors. LIBVA_DRIVER_NAME=iHD
+			# intel-vaapi-driver # For older processors. LIBVA_DRIVER_NAME=i965
+		];
+	};
+	environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";# Optionally, set the environment variable
+
 	# Use the systemd-boot EFI boot loader.
 	boot.loader.systemd-boot.enable = true;
 	boot.loader.efi.canTouchEfiVariables = true;
@@ -46,6 +55,22 @@ in
 	# networking.wireless.enable = true;	# Enables wireless support via wpa_supplicant.
 	networking.networkmanager.enable = true;	# Easiest to use and most distros use this by default.
 	networking.wireguard.enable = true;
+
+	# A hack to fix mullvads local network sharing not working across subnets
+	# TODO: figure out why it breaks each time I resume from suspend and mullvad reconnects
+	# ip route add 192.168.0.0/16 via 192.168.2.1 dev wlp0s20f3 onlink table main
+	networking.interfaces.wlp0s20f3.ipv4.routes = [
+		{
+			address = "192.168.0.0";
+			via = "192.168.2.1";
+			prefixLength = 16;
+			options = {
+				table = "main";
+				onlink = "onlink"; # Another hack to get onlink working
+			};
+		}
+	];
+
 
 	hardware.bluetooth.enable = true;
 	services.blueman.enable = true;
@@ -158,6 +183,7 @@ in
 		imv
 		zenity # For running desktop files exported from distrobox --root
 		mullvad-vpn
+		# (mullvad-vpn.overrideAttrs(prev: {buildInputs = prev.buildInputs ++ [libva];})) # for hardware acceleration
 		brightnessctl
 		pavucontrol
 		pamixer
@@ -205,6 +231,7 @@ in
 		# nur.repos.ataraxiasjel.waydroid-script
 
 		gdu
+		imagemagick # I like magick
 	];
 
 	security.polkit.enable = true;
@@ -235,6 +262,13 @@ in
 	# Enable the OpenSSH daemon.
 	# services.openssh.enable = true;
 
+	services.clamav = {
+		daemon.enable = false;
+		scanner.enable = true;
+		updater.enable = true;
+		fangfrisch.enable = true;
+	};
+
 	services.mullvad-vpn.enable = true;
 	services.auto-cpufreq = {
 		enable = true;
@@ -256,7 +290,10 @@ in
 	# services.clipboard-sync.enable = true;
 
 	# Enable CUPS to print documents.
-	services.printing.enable = true;
+	services.printing = {
+		enable = true;
+		drivers = with pkgs; [ gutenprint cnijfilter2 ];
+	};
 
 	services.syncthing = let
 		devices = import /home/user/.config/syncthing/config.nix;

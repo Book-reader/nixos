@@ -42,11 +42,12 @@
   ffmpeg,
   glib,
   pciutils,
+  libva,
 }:
 
 let
   # version = "6.5.11";
-  version = "6.6.4";
+  version = "6.6.5";
 
   desktopItem = makeDesktopItem {
     name = "waterfox";
@@ -84,7 +85,7 @@ stdenv.mkDerivation (finalAttrs: {
   src = fetchurl {
     url = "https://cdn1.waterfox.net/waterfox/releases/${finalAttrs.version}/Linux_x86_64/waterfox-${finalAttrs.version}.tar.bz2";
     # hash = "sha256-46jBevpxYNZ/fmyu3RBpgF87XPTofo4/wPtzZXGDi8U=";
-    hash = "sha256-AFBLBEFA7iXY9lr2UIccVUhsNNeXfx1K0UMsRuDZT4c=";
+    hash = "sha256-tiBqxdezsWGUTzeBP30DdEki8wDiJPW+IOUlkk60Oow=";
   };
 
   nativeBuildInputs = [
@@ -130,6 +131,7 @@ stdenv.mkDerivation (finalAttrs: {
     ffmpeg
     glib
     pciutils
+    libva
   ];
 
   dontConfigure = true;
