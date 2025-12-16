@@ -10,7 +10,7 @@
 		];
 
 
-	swapDevices = [ { device = "/swap/swapfile"; } ];
+	swapDevices = [ { device = "/swap/swapfile"; } { device = "/swap/swapfile1"; } ];
 	fileSystems = {
 		"/".options = [ "compress=zstd:3" ];
 		"/home".options = [ "compress=zstd:3" ];
@@ -144,6 +144,8 @@
 
 		gdu
 		imagemagick # I like magick
+
+		wmname # because java is stupid and apps like ghidra render blank windows unless I run `wmname LG3D`
 	];
 
 	# Some programs need SUID wrappers, can be configured further or are
@@ -170,13 +172,6 @@
 	# Enable the OpenSSH daemon.
 	# services.openssh.enable = true;
 
-	services.clamav = {
-		daemon.enable = false;
-		scanner.enable = true;
-		updater.enable = true;
-		fangfrisch.enable = true;
-	};
-
 	services.mullvad-vpn.enable = true;
 	services.flatpak.enable = true;
 	services.dbus.enable = true;
@@ -188,6 +183,12 @@
 		enable = true;
 		drivers = with pkgs; [ gutenprint cnijfilter2 ];
 	};
+
+	hardware.sane = {
+		enable = true;
+		# extraBackends = with pkgs; [];
+	};
+	services.saned.enable = true;
 
 /*	services.syncthing = let
 		devices = import /home/user/.config/syncthing/config.nix;
