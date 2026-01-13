@@ -146,7 +146,7 @@ in
 		wl-clipboard
 		networkmanagerapplet
 		
-		prismlauncher jdk23
+		prismlauncher jdk21
 
 		steam
 		
