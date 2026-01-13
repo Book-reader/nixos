@@ -122,7 +122,7 @@
 		(pkgs.callPackage ../../pkgs/betterdiscord-installer.nix {})
 		vscode.fhs
 		# (import ./nix/default.nix).default
-		syncthing
+		# syncthing
 		wireguard-tools
 		xwayland-satellite
 		python3

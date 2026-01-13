@@ -166,7 +166,7 @@ in
 		(pkgs.callPackage ../../pkgs/waterfox.nix {})
 		vscode.fhs
 		# (import ./nix/default.nix).default
-		syncthing
+		# syncthing
 		nvtopPackages.amd
 		(pkgs.callPackage pkgs.writeTextFile {
 			name = "fix-controller";
@@ -183,7 +183,7 @@ in
 		fahclient
 	];
 
-	systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
+	# systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
 
 	security.polkit.enable = true;
 
