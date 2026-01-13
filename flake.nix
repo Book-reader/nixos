@@ -64,6 +64,7 @@
 					./modules/networking.nix
 					./modules/cpufreq.nix
 					# ./modules/syncthing.nix
+					./modules/vpn.nix
 				];
 			};
 			NixOS-NUC = nixpkgs.lib.nixosSystem {
@@ -91,6 +92,7 @@
 					./modules/base.nix
 					./modules/networking.nix
 					# ./modules/syncthing.nix
+					./modules/vpn.nix
 				];
 			};
 

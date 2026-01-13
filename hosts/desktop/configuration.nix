@@ -212,11 +212,6 @@ in
 	# Enable the OpenSSH daemon.
 	# services.openssh.enable = true;
 
-	services.mullvad-vpn = {
-		enable = true;
-		package = pkgs.mullvad-vpn;
-	};
-
 	services.flatpak.enable = true;
 	services.dbus.enable = true;
 	services.gvfs.enable = true;
@@ -237,7 +232,6 @@ in
 			devices = {
 				"laptop" = { id = devices.laptop; };
 			};
-		};
 			folders = {
 				"git" = {
 					path = "/home/user/git";
@@ -265,7 +259,7 @@ in
 					devices = [ "laptop" ];
 				};
 			};
-
+		};
 	};
 
 	# Enable sound.

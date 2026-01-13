@@ -175,10 +175,6 @@
 	# Enable the OpenSSH daemon.
 	# services.openssh.enable = true;
 
-	services.mullvad-vpn = {
-		enable = true;
-		package = pkgs.mullvad-vpn;
-	};
 	services.flatpak.enable = true;
 	services.dbus.enable = true;
 	services.gvfs.enable = true;
