@@ -63,7 +63,7 @@
 					./modules/base.nix
 					./modules/networking.nix
 					./modules/cpufreq.nix
-					./modules/syncthing.nix
+					# ./modules/syncthing.nix
 				];
 			};
 			NixOS-NUC = nixpkgs.lib.nixosSystem {
@@ -90,7 +90,7 @@
 					./modules/folding-at-home.nix
 					./modules/base.nix
 					./modules/networking.nix
-					./modules/syncthing.nix
+					# ./modules/syncthing.nix
 				];
 			};
 

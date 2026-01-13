@@ -94,7 +94,6 @@
 		polkit_gnome
 		imv
 		zenity # For running desktop files exported from distrobox --root
-		mullvad-vpn
 		# (mullvad-vpn.overrideAttrs(prev: {buildInputs = prev.buildInputs ++ [libva];})) # for hardware acceleration
 		brightnessctl
 		pavucontrol
@@ -146,6 +145,8 @@
 		imagemagick # I like magick
 
 		wmname # because java is stupid and apps like ghidra render blank windows unless I run `wmname LG3D`
+
+		virt-manager
 	];
 
 	# Some programs need SUID wrappers, can be configured further or are
@@ -155,6 +156,8 @@
 		enable = true;
 		enableSSHSupport = true;
 	};
+
+	programs.virt-manager.enable = true;
 
 	virtualisation = {
 		containers.enable = true;
@@ -172,7 +175,10 @@
 	# Enable the OpenSSH daemon.
 	# services.openssh.enable = true;
 
-	services.mullvad-vpn.enable = true;
+	services.mullvad-vpn = {
+		enable = true;
+		package = pkgs.mullvad-vpn;
+	};
 	services.flatpak.enable = true;
 	services.dbus.enable = true;
 	services.gvfs.enable = true;
@@ -190,10 +196,10 @@
 	};
 	services.saned.enable = true;
 
-/*	services.syncthing = let
+	services.syncthing = let
 		devices = import /home/user/.config/syncthing/config.nix;
 	in {
-		enable = false; # true;
+		enable = true;
 		user = "user";
 		key = "${/home/user/.config/syncthing/key.pem}";
 		cert = "${/home/user/.config/syncthing/cert.pem}";
@@ -205,31 +211,61 @@
 				"git" = {
 					path = "/home/user/git";
 					devices = [ "desktop" ];
+					rescanIntervalS = "21600"; # do a full rescan every 6 hours
+					versioning = {
+						type = "simple";
+						params.keep = "10";
+					};
 				};
 				"code" = {
 					path = "/home/user/code";
 					devices = [ "desktop" ];
+					rescanIntervalS = "21600"; # do a full rescan every 6 hours
+					versioning = {
+						type = "simple";
+						params.keep = "10";
+					};
 				};
 				"PrismLauncher" = {
 					path = "/home/user/.local/share/PrismLauncher";
 					devices = [ "desktop" ];
+					rescanIntervalS = "21600"; # do a full rescan every 6 hours
+					versioning = {
+						type = "simple";
+						params.keep = "10";
+					};
 				};
 				"Vintage Story" = {
 					path = "/home/user/.var/app/at.vintagestory.VintageStory/config/VintagestoryData";
 					# ignore = [ "clientsettings.json" ];
 					devices = [ "desktop" ];
+					rescanIntervalS = "21600"; # do a full rescan every 6 hours
+					versioning = {
+						type = "simple";
+						params.keep = "10";
+					};
 				};
 				"Lutris" = {
 					path = "/home/user/.var/app/net.lutris.Lutris/data";
 					devices = [ "desktop" ];
+					rescanIntervalS = "21600"; # do a full rescan every 6 hours
+					versioning = {
+						type = "simple";
+						params.keep = "10";
+					};
 				};
 				"Lutris Games" = {
 					path = "/home/user/Documents/games";
 					devices = [ "desktop" ];
+					rescanIntervalS = "21600"; # do a full rescan every 6 hours
+					versioning = {
+						type = "simple";
+						params.keep = "10";
+					};
 				};
 			};
 		};
-	};*/
+	};
 
 
 	# Enable touchpad support (enabled default in most desktopManager).

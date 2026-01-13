@@ -39,7 +39,8 @@
   patchelf,
   makeWrapper,
   libGL,
-  ffmpeg,
+  ffmpeg_4,
+  # ffmpeg,
   glib,
   pciutils,
   libva,
@@ -47,7 +48,7 @@
 
 let
   # version = "6.5.11";
-  version = "6.6.5";
+  version = "6.6.7";
 
   desktopItem = makeDesktopItem {
     name = "waterfox";
@@ -85,7 +86,7 @@ stdenv.mkDerivation (finalAttrs: {
   src = fetchurl {
     url = "https://cdn1.waterfox.net/waterfox/releases/${finalAttrs.version}/Linux_x86_64/waterfox-${finalAttrs.version}.tar.bz2";
     # hash = "sha256-46jBevpxYNZ/fmyu3RBpgF87XPTofo4/wPtzZXGDi8U=";
-    hash = "sha256-tiBqxdezsWGUTzeBP30DdEki8wDiJPW+IOUlkk60Oow=";
+    hash = "sha256-/R2rQkYPJ8boC/hHK39UuIkKyAHjaW+t7s5aaWZYTTI=";
   };
 
   nativeBuildInputs = [
@@ -128,7 +129,8 @@ stdenv.mkDerivation (finalAttrs: {
     libxcb
     stdenv.cc.cc.lib
     libGL
-    ffmpeg
+    # ffmpeg
+    ffmpeg_4
     glib
     pciutils
     libva
