@@ -137,7 +137,6 @@ in
 		polkit_gnome
 		imv
 		zenity # For running desktop files exported from distrobox --root
-		mullvad-vpn
 		brightnessctl
 		pavucontrol
 		pamixer
@@ -213,7 +212,11 @@ in
 	# Enable the OpenSSH daemon.
 	# services.openssh.enable = true;
 
-	services.mullvad-vpn.enable = true;
+	services.mullvad-vpn = {
+		enable = true;
+		package = pkgs.mullvad-vpn;
+	};
+
 	services.flatpak.enable = true;
 	services.dbus.enable = true;
 	services.gvfs.enable = true;
