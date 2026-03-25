@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, nixpkgs, /*unstable,*/ ... }:
+{ inputs, config, lib, pkgs, nixpkgs, /*unstable,*/ ... }:
 {
 	imports =
 		[ # Include the results of the hardware scan.
@@ -12,9 +12,9 @@
 
 	swapDevices = [ { device = "/swap/swapfile"; } { device = "/swap/swapfile1"; } ];
 	fileSystems = {
-		"/".options = [ "compress=zstd:3" ];
-		"/home".options = [ "compress=zstd:3" ];
-		"/nix".options = [ "compress=zstd:3" "noatime" ];
+		"/".options = [ "compress=lzo" ];
+		"/home".options = [ "compress=lzo" ];
+		"/nix".options = [ "compress=lzo" "noatime" ];
 		"/swap".options = [ "noatime" ];
 	};
 
@@ -36,6 +36,14 @@
 	};
 	environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";# Optionally, set the environment variable
 
+
+	fonts = {
+		enableDefaultPackages = true;
+		packages = with pkgs; [
+			noto-fonts-cjk-sans
+		];
+		fontDir.enable = true;
+	};
 	# Use the systemd-boot EFI boot loader.
 	# boot.kernelParams = [
 	# 	"intel_pstate=disable"
@@ -65,10 +73,6 @@
 
 	# Enable the X11 windowing system.
 	# services.xserver.enable = true;
-	programs.hyprland = {
-		enable = true;
-		withUWSM = true;
-	};
 	# Configure keymap in X11
 	services.xserver.xkb.layout = "us";
 	# services.xserver.xkb.options = "eurosign:e,caps:escape";
@@ -83,8 +87,8 @@
 		# starship
 		# Hypr*
 		hyprlock
-		hypridle
-		hyprpaper
+		swaybg
+		swww
 		# End Hypr*
 		tofi
 		rofi
@@ -107,7 +111,7 @@
 		prismlauncher
 		
 		gparted
-		xorg.xhost
+		xhost
 		auto-cpufreq
 		papirus-icon-theme
 		grim
@@ -120,13 +124,14 @@
 		# clipboard-sync
 		# (pkgs.callPackage ./pkgs/clipboard-sync.nix {})
 		(pkgs.callPackage ../../pkgs/betterdiscord-installer.nix {})
+		(pkgs.callPackage ../../pkgs/thorium.nix {})
 		vscode.fhs
 		# (import ./nix/default.nix).default
 		# syncthing
 		wireguard-tools
 		xwayland-satellite
 		python3
-		wineWowPackages.waylandFull
+		wineWow64Packages.waylandFull
 		file
 		# (pkgs.callPackage ../../pkgs/synology-active-backup/default.nix {})
 		(pkgs.callPackage ../../pkgs/waterfox.nix {})
@@ -147,11 +152,18 @@
 		wmname # because java is stupid and apps like ghidra render blank windows unless I run `wmname LG3D`
 
 		virt-manager
+
+		# (inputs.tagstudio.packages.${builtins.currentSystem}.tagstudio)
+
+		jetbrains.idea-oss
 	];
 
 	# Some programs need SUID wrappers, can be configured further or are
 	# started in user sessions.
 	# programs.mtr.enable = true;
+
+	programs.gtklock.enable = true;
+
 	programs.gnupg.agent = {
 		enable = true;
 		enableSSHSupport = true;
@@ -195,7 +207,7 @@
 	services.syncthing = let
 		devices = import /home/user/.config/syncthing/config.nix;
 	in {
-		enable = true;
+		enable = false;
 		user = "user";
 		key = "${/home/user/.config/syncthing/key.pem}";
 		cert = "${/home/user/.config/syncthing/cert.pem}";

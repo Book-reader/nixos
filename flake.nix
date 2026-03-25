@@ -2,40 +2,22 @@
 	description = "My NixOS flake";
 
 	inputs = {
-		/*nixpkgs = {
-			url = "github:NixOS/nixpkgs/nixos-25.05";
-			#overlays = import ./overlays;
-			#config.allowUnfree = true;
-		};*/
-		nixpkgs/*-unstable*/.url = "github:NixOS/nixpkgs/nixos-unstable";
-		/*nur = {
-			url = "github:nix-community/NUR";
+		nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+		/*tagstudio = {
+			url = "github:TagStudioDev/TagStudio";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};*/
 
-		/*lix = {
-			url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
-			flake = false;
-		};
-
-		lix-module = {
-			url = "https://git.lix.systems/lix-project/nixos-module/archive/main.tar.gz";
+/*		home-manager = {
+			url = "github:nix-community/home-manager";
 			inputs.nixpkgs.follows = "nixpkgs";
-			inputs.lix.follows = "lix";
 		};*/
 	};
 
 
-	outputs = { self, nixpkgs, nur, /*nixpkgs-unstable,*/ /*lix, lix-module,*/ ... }@inputs:
+	outputs = { self, nixpkgs, nur, home-manager, ... }@inputs:
 	let
-		/*unstable = import nixpkgs-unstable {
-			config.allowUnfree = true;
-		};*/
-		/*pkgs = import nixpkgs {
-			overlays = import ./overlays;
-			# overlays = [ lix-module.overlays.default ] ++ import ./overlays;
-			config.allowUnfree = true;
-		};*/
 		pkgsOverride = (inputs: {
 			nixpkgs = {
 				overlays = import ./overlays;
@@ -45,12 +27,20 @@
 
 		username = "user";
 		locale = "en_NZ.UTF-8";
+
+/*		home-manager-config = {
+			home-manager = {
+				useGlobalPkgs = true;
+				useUserPackages = true;
+				users.${username} = ./modules/home-manager.nix;
+			};
+		};*/
 	in {
 		nixosConfigurations = {
 			NixOS-PC = nixpkgs.lib.nixosSystem {
 				# I don't like flakes enough to allow this to be pure
 				system = builtins.currentSystem;
-				specialArgs = let hostname = "NixOS-PC"; in { inherit inputs /*nixpkgs*/ username hostname locale/*unstable*/; };
+				specialArgs = let hostname = "NixOS-PC"; in { inherit inputs username hostname locale home-manager; };
 				modules = [
 					pkgsOverride
 					# nur.modules.nixos.default
@@ -65,6 +55,9 @@
 					./modules/cpufreq.nix
 					# ./modules/syncthing.nix
 					./modules/vpn.nix
+					./modules/ime.nix
+					# home-manager.nixosModules.home-manager
+					# home-manager-config
 				];
 			};
 			NixOS-NUC = nixpkgs.lib.nixosSystem {
