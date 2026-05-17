@@ -88,7 +88,7 @@
 		# Hypr*
 		hyprlock
 		swaybg
-		swww
+		awww
 		# End Hypr*
 		tofi
 		rofi
@@ -107,12 +107,12 @@
 		# another trash-cli replacement
 		wl-clipboard
 		networkmanagerapplet
-		
+
 		prismlauncher
-		
+
 		gparted
 		xhost
-		auto-cpufreq
+		# auto-cpufreq
 		papirus-icon-theme
 		grim
 		slurp
@@ -155,7 +155,8 @@
 
 		# (inputs.tagstudio.packages.${builtins.currentSystem}.tagstudio)
 
-		jetbrains.idea-oss
+		# jetbrains.idea-oss
+		lunatask
 	];
 
 	# Some programs need SUID wrappers, can be configured further or are

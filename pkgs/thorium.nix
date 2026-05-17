@@ -1,13 +1,13 @@
 { appimageTools, lib, fetchurl }:
 let
 	pname = "thorium";
-	version = "138.0.7204.300";
+	version = "138.0.7204.303";
 	variant = "SSE4";
 	name = "${pname}-${version}";
 
 	src = fetchurl {
 		url = "https://github.com/Alex313031/thorium/releases/download/M${version}/Thorium_Browser_${version}_${variant}.AppImage";
-		sha256 = "sha256-cr1yyiPYIh0JxLMlf0ZCt+Do0TYT6KvgYtM0ffknxVE=";
+		sha256 = "sha256-g8C/RT3O++4GLb09RahLCB+3RuSE/EfICf9iIAkRccA=";
 	};
 
 	appimageContents = appimageTools.extract { inherit src pname version; };

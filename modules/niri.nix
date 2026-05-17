@@ -50,7 +50,8 @@
 		LC_MEASUREMENT = locale;
 		LC_MONETARY = locale;
 		LC_NAME = locale;
-		LC_NUMERIC = locale;
+		# C locale is needed by mpv for some reason
+		LC_NUMERIC = "C"; # locale;
 		LC_PAPER = locale;
 		LC_TELEPHONE = locale;
 		LC_TIME = locale;

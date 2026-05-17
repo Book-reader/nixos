@@ -10,5 +10,7 @@
 
 	programs.nix-ld.enable = true;
 
-	zramSwap.enable = true;
+	# https://chrisdown.name/2026/03/24/zswap-vs-zram-when-to-use-what.html
+	# zramSwap.enable = true;
+	boot.zswap.enable = true;
 }
