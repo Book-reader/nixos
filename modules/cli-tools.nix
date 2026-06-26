@@ -17,7 +17,8 @@
 		ffmpeg
 		man-pages
 		man-pages-posix
-		pipx
+		# Fix build failure: https://github.com/NixOS/nixpkgs/issues/522307
+		(pipx.overridePythonAttrs {doCheck = false;})
 		zip
 		unzip
 		bat

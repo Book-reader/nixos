@@ -157,6 +157,7 @@
 
 		# jetbrains.idea-oss
 		lunatask
+		zathura
 	];
 
 	# Some programs need SUID wrappers, can be configured further or are

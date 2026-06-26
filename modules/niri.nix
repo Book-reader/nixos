@@ -45,6 +45,7 @@
 
 	i18n.defaultLocale = locale;
 	i18n.extraLocaleSettings = {
+		LANGUAGE = "en_NZ:en_GB:en"; # Fallback locales for translation
 		LC_ADDRESS = locale;
 		LC_IDENTIFICATION = locale;
 		LC_MEASUREMENT = locale;
