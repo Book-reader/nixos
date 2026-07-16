@@ -205,6 +205,7 @@
 		# extraBackends = with pkgs; [];
 	};
 	services.saned.enable = true;
+	services.upower.enable = true;
 
 	services.syncthing = let
 		devices = import /home/user/.config/syncthing/config.nix;

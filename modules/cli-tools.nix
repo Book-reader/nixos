@@ -23,5 +23,7 @@
 		unzip
 		bat
 		tree
+		fd
+		ripgrep
 	];
 }
