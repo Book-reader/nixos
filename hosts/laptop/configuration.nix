@@ -207,76 +207,76 @@
 	services.saned.enable = true;
 	services.upower.enable = true;
 
-	services.syncthing = let
-		devices = import /home/user/.config/syncthing/config.nix;
-	in {
-		enable = false;
-		user = "user";
-		key = "${/home/user/.config/syncthing/key.pem}";
-		cert = "${/home/user/.config/syncthing/cert.pem}";
-		settings = {
-			devices = {
-				"desktop" = { id = devices.desktop; };
-			};
-			folders = {
-				"git" = {
-					path = "/home/user/git";
-					devices = [ "desktop" ];
-					rescanIntervalS = "21600"; # do a full rescan every 6 hours
-					versioning = {
-						type = "simple";
-						params.keep = "10";
-					};
-				};
-				"code" = {
-					path = "/home/user/code";
-					devices = [ "desktop" ];
-					rescanIntervalS = "21600"; # do a full rescan every 6 hours
-					versioning = {
-						type = "simple";
-						params.keep = "10";
-					};
-				};
-				"PrismLauncher" = {
-					path = "/home/user/.local/share/PrismLauncher";
-					devices = [ "desktop" ];
-					rescanIntervalS = "21600"; # do a full rescan every 6 hours
-					versioning = {
-						type = "simple";
-						params.keep = "10";
-					};
-				};
-				"Vintage Story" = {
-					path = "/home/user/.var/app/at.vintagestory.VintageStory/config/VintagestoryData";
-					# ignore = [ "clientsettings.json" ];
-					devices = [ "desktop" ];
-					rescanIntervalS = "21600"; # do a full rescan every 6 hours
-					versioning = {
-						type = "simple";
-						params.keep = "10";
-					};
-				};
-				"Lutris" = {
-					path = "/home/user/.var/app/net.lutris.Lutris/data";
-					devices = [ "desktop" ];
-					rescanIntervalS = "21600"; # do a full rescan every 6 hours
-					versioning = {
-						type = "simple";
-						params.keep = "10";
-					};
-				};
-				"Lutris Games" = {
-					path = "/home/user/Documents/games";
-					devices = [ "desktop" ];
-					rescanIntervalS = "21600"; # do a full rescan every 6 hours
-					versioning = {
-						type = "simple";
-						params.keep = "10";
-					};
-				};
-			};
-		};
-	};
+	# services.syncthing = let
+	# 	devices = import /home/user/.config/syncthing/config.nix;
+	# in {
+	# 	enable = false;
+	# 	user = "user";
+	# 	key = "${/home/user/.config/syncthing/key.pem}";
+	# 	cert = "${/home/user/.config/syncthing/cert.pem}";
+	# 	settings = {
+	# 		devices = {
+	# 			"desktop" = { id = devices.desktop; };
+	# 		};
+	# 		folders = {
+	# 			"git" = {
+	# 				path = "/home/user/git";
+	# 				devices = [ "desktop" ];
+	# 				rescanIntervalS = "21600"; # do a full rescan every 6 hours
+	# 				versioning = {
+	# 					type = "simple";
+	# 					params.keep = "10";
+	# 				};
+	# 			};
+	# 			"code" = {
+	# 				path = "/home/user/code";
+	# 				devices = [ "desktop" ];
+	# 				rescanIntervalS = "21600"; # do a full rescan every 6 hours
+	# 				versioning = {
+	# 					type = "simple";
+	# 					params.keep = "10";
+	# 				};
+	# 			};
+	# 			"PrismLauncher" = {
+	# 				path = "/home/user/.local/share/PrismLauncher";
+	# 				devices = [ "desktop" ];
+	# 				rescanIntervalS = "21600"; # do a full rescan every 6 hours
+	# 				versioning = {
+	# 					type = "simple";
+	# 					params.keep = "10";
+	# 				};
+	# 			};
+	# 			"Vintage Story" = {
+	# 				path = "/home/user/.var/app/at.vintagestory.VintageStory/config/VintagestoryData";
+	# 				# ignore = [ "clientsettings.json" ];
+	# 				devices = [ "desktop" ];
+	# 				rescanIntervalS = "21600"; # do a full rescan every 6 hours
+	# 				versioning = {
+	# 					type = "simple";
+	# 					params.keep = "10";
+	# 				};
+	# 			};
+	# 			"Lutris" = {
+	# 				path = "/home/user/.var/app/net.lutris.Lutris/data";
+	# 				devices = [ "desktop" ];
+	# 				rescanIntervalS = "21600"; # do a full rescan every 6 hours
+	# 				versioning = {
+	# 					type = "simple";
+	# 					params.keep = "10";
+	# 				};
+	# 			};
+	# 			"Lutris Games" = {
+	# 				path = "/home/user/Documents/games";
+	# 				devices = [ "desktop" ];
+	# 				rescanIntervalS = "21600"; # do a full rescan every 6 hours
+	# 				versioning = {
+	# 					type = "simple";
+	# 					params.keep = "10";
+	# 				};
+	# 			};
+	# 		};
+	# 	};
+	# };
 
 
 	# Enable touchpad support (enabled default in most desktopManager).

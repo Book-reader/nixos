@@ -2,7 +2,7 @@
 {
 	users.users."${username}"= {
 		isNormalUser = true;
-		extraGroups = [ "networkmanager" "wheel" "dialout" "mlocate" "cdrom" ];
+		extraGroups = [ "networkmanager" "wheel" "dialout" "mlocate" "cdrom" "video" "audio" "render" ];
 		shell = pkgs.fish;
 		# User specific packages
 		# packages = with pkgs; [];

@@ -16,7 +16,7 @@
 	};
 
 
-	outputs = { self, nixpkgs, nur, home-manager, ... }@inputs:
+	outputs = { self, nixpkgs, /*nur, home-manager,*/ ... }@inputs:
 	let
 		pkgsOverride = (inputs: {
 			nixpkgs = {
@@ -40,7 +40,7 @@
 			NixOS-PC = nixpkgs.lib.nixosSystem {
 				# I don't like flakes enough to allow this to be pure
 				system = builtins.currentSystem;
-				specialArgs = let hostname = "NixOS-PC"; in { inherit inputs username hostname locale home-manager; };
+				specialArgs = let hostname = "NixOS-PC"; in { inherit inputs username hostname locale/* home-manager*/; };
 				modules = [
 					pkgsOverride
 					# nur.modules.nixos.default
@@ -53,7 +53,7 @@
 					./modules/base.nix
 					./modules/networking.nix
 					./modules/cpufreq.nix
-					# ./modules/syncthing.nix
+					./modules/syncthing.nix
 					./modules/vpn.nix
 					./modules/ime.nix
 					# home-manager.nixosModules.home-manager
@@ -62,13 +62,14 @@
 			};
 			NixOS-NUC = nixpkgs.lib.nixosSystem {
 				system = builtins.currentSystem;
-				specialArgs = { inherit inputs /*nixpkgs*/ username; };
+				specialArgs = let hostname = "NixOS-NUC"; in { inherit inputs /*nixpkgs*/ username hostname; };
 				modules = [
 					pkgsOverride
 					./hosts/nuc/configuration.nix
 					./modules/user.nix
 					./modules/cli-tools.nix
 					./modules/folding-at-home.nix
+					./modules/syncthing.nix
 				];
 			};
 			NixOS-Desktop = nixpkgs.lib.nixosSystem {
