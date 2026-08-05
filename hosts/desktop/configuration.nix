@@ -14,7 +14,7 @@ in
 
 	nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-	zramSwap.enable = true;
+	# zramSwap.enable = true;
 	swapDevices = [ { device = "/swap/swapfile"; } ];
 	fileSystems = {
 		"/".options = [ "compress=zstd:2" ];
@@ -52,14 +52,14 @@ in
 	boot.loader.systemd-boot.enable = true;
 	boot.loader.efi.canTouchEfiVariables = true;
 
-	networking.hostName = "NixOS-Desktop"; # Define your hostname.
+	# networking.hostName = "NixOS-Desktop"; # Define your hostname.
 	# Pick only one of the below networking options.
 	# networking.wireless.enable = true;	# Enables wireless support via wpa_supplicant.
-	networking.networkmanager.enable = true;	# Easiest to use and most distros use this by default.
-	networking.wireguard.enable = true;
+	# networking.networkmanager.enable = true;	# Easiest to use and most distros use this by default.
+	# networking.wireguard.enable = true;
 
-	hardware.bluetooth.enable = true;
-	services.blueman.enable = true;
+	#hardware.bluetooth.enable = true;
+	#services.blueman.enable = true;
 
 	# Set your time zone.
 	time.timeZone = "Pacific/Auckland";
@@ -69,18 +69,18 @@ in
 	# networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
 	# Select internationalisation properties.
-	i18n.defaultLocale = locale;
-	i18n.extraLocaleSettings = {
-		LC_ADDRESS = locale;
-		LC_IDENTIFICATION = locale;
-		LC_MEASUREMENT = locale;
-		LC_MONETARY = locale;
-		LC_NAME = locale;
-		LC_NUMERIC = locale;
-		LC_PAPER = locale;
-		LC_TELEPHONE = locale;
-		LC_TIME = locale;
-	};
+	# i18n.defaultLocale = locale;
+	# i18n.extraLocaleSettings = {
+	# 	LC_ADDRESS = locale;
+	# 	LC_IDENTIFICATION = locale;
+	# 	LC_MEASUREMENT = locale;
+	# 	LC_MONETARY = locale;
+	# 	LC_NAME = locale;
+	# 	LC_NUMERIC = locale;
+	# 	LC_PAPER = locale;
+	# 	LC_TELEPHONE = locale;
+	# 	LC_TIME = locale;
+	# };
 	# console = {
 	# 	font = "Lat2-Terminus16";
 	# 	keyMap = "us";
@@ -92,10 +92,10 @@ in
 
 	# Enable the X11 windowing system.
 	# services.xserver.enable = true;
-	programs.hyprland = {
-		enable = true;
-		withUWSM = true;
-	};
+	# programs.hyprland = {
+	# 	enable = true;
+	# 	withUWSM = true;
+	# };
 	xdg.portal = {
 		enable = true;
 		# xdgOpenUsePortal = true;
@@ -124,10 +124,10 @@ in
 		waybar
 		# starship
 		# Hypr*
-		hyprlock
-		hypridle
-		hyprpaper
-		hyprland
+		# hyprlock
+		# hypridle
+		# hyprpaper
+		# hyprland
 		# End Hypr*
 		tofi
 		rofi
@@ -181,6 +181,7 @@ in
 		})
 
 		fahclient
+		wireguard-tools
 	];
 
 	# systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
@@ -210,7 +211,13 @@ in
 	# List services that you want to enable:
 
 	# Enable the OpenSSH daemon.
-	# services.openssh.enable = true;
+	services.openssh = {
+		enable = true;
+		openFirewall = true;
+		settings = {
+			PasswordAuthentication = false;
+		};
+	};
 
 	services.flatpak.enable = true;
 	services.dbus.enable = true;
@@ -221,46 +228,46 @@ in
 	# Enable CUPS to print documents.
 	services.printing.enable = true;
 
-	services.syncthing = let
-		devices = import /home/user/.config/syncthing/config.nix;
-	in {
-		enable = true;
-		user = "user";
-		key = "${/home/user/.config/syncthing/key.pem}";
-		cert = "${/home/user/.config/syncthing/cert.pem}";
-		settings = {
-			devices = {
-				"laptop" = { id = devices.laptop; };
-			};
-			folders = {
-				"git" = {
-					path = "/home/user/git";
-					devices = [ "laptop" ];
-				};
-				"code" = {
-					path = "/home/user/code";
-					devices = [ "laptop" ];
-				};
-				"PrismLauncher" = {
-					path = "/home/user/.local/share/PrismLauncher";
-					devices = [ "laptop" ];
-				};
-				"Vintage Story" = {
-					path = "/home/user/.var/app/at.vintagestory.VintageStory/config/VintagestoryData";
-					# ignore = [ "clientsettings.json" ];
-					devices = [ "laptop" ];
-				};
-				"Lutris" = {
-					path = "/home/user/.var/app/net.lutris.Lutris/data";
-					devices = [ "laptop" ];
-				};
-				"Lutris Games" = {
-					path = "/home/user/Documents/games";
-					devices = [ "laptop" ];
-				};
-			};
-		};
-	};
+	# services.syncthing = let
+	# 	devices = import /home/user/.config/syncthing/config.nix;
+	# in {
+	# 	enable = true;
+	# 	user = "user";
+	# 	key = "${/home/user/.config/syncthing/key.pem}";
+	# 	cert = "${/home/user/.config/syncthing/cert.pem}";
+	# 	settings = {
+	# 		devices = {
+	# 			"laptop" = { id = devices.laptop; };
+	# 		};
+	# 		folders = {
+	# 			"git" = {
+	# 				path = "/home/user/git";
+	# 				devices = [ "laptop" ];
+	# 			};
+	# 			"code" = {
+	# 				path = "/home/user/code";
+	# 				devices = [ "laptop" ];
+	# 			};
+	# 			"PrismLauncher" = {
+	# 				path = "/home/user/.local/share/PrismLauncher";
+	# 				devices = [ "laptop" ];
+	# 			};
+	# 			"Vintage Story" = {
+	# 				path = "/home/user/.var/app/at.vintagestory.VintageStory/config/VintagestoryData";
+	# 				# ignore = [ "clientsettings.json" ];
+	# 				devices = [ "laptop" ];
+	# 			};
+	# 			"Lutris" = {
+	# 				path = "/home/user/.var/app/net.lutris.Lutris/data";
+	# 				devices = [ "laptop" ];
+	# 			};
+	# 			"Lutris Games" = {
+	# 				path = "/home/user/Documents/games";
+	# 				devices = [ "laptop" ];
+	# 			};
+	# 		};
+	# 	};
+	# };
 
 	# Enable sound.
 	# hardware.pulseaudio.enable = true;

@@ -69,7 +69,7 @@
 					./modules/user.nix
 					./modules/cli-tools.nix
 					./modules/folding-at-home.nix
-					./modules/syncthing.nix
+
 				];
 			};
 			NixOS-Desktop = nixpkgs.lib.nixosSystem {
@@ -81,12 +81,14 @@
 					./modules/user.nix
 					./modules/cli-tools.nix
 					./modules/gui-programs.nix
-					./modules/hyprland.nix
+					# ./modules/hyprland.nix
 					./modules/folding-at-home.nix
 					./modules/base.nix
 					./modules/networking.nix
-					# ./modules/syncthing.nix
+					./modules/syncthing.nix
 					./modules/vpn.nix
+					./modules/niri.nix
+					# ./modules/wireguard.nix
 				];
 			};
 
